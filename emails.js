@@ -1,24 +1,25 @@
-const { emailPassword } = require('./config');
+const { devEmail, emailPassword, personalEmail } = require('./config');
 const nodemailer = require('nodemailer');
 
 let defaultMailOptions = {
-  from: 'conmartdev42@gmail.com',
-  to: 'connor.a.martinelli@gmail.com',
+  from: devEmail,
+  to: personalEmail,
   subject: 'Air Quality Update',
 };
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'conmartdev42@gmail.com',
+    user: devEmail,
     pass: emailPassword,
   },
 });
 
-const sendEmail = (recovery, threshold) => {
-  const text = recovery ? 'dropped below' : 'exceeded';
-  const emailBody = `Attention: the AQI for your area has ${text} ${threshold}.`;
-  const mailOptions = { ...defaultMailOptions, text: emailBody };
+const sendEmail = (exceededThreshold, threshold, aqi) => {
+  const subject = `AQI Update: ${aqi}`;
+  const dynamicText = exceededThreshold ? 'dropped below' : 'exceeded';
+  const text = `Attention: the AQI for your area has ${dynamicText} your alert (${threshold}) and is currently at ${aqi}.`;
+  const mailOptions = { ...defaultMailOptions, text, subject };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
   	  console.log(error);

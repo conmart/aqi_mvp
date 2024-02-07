@@ -3,22 +3,21 @@ const { sendEmail } = require('./emails');
 const { getSensorData } = require('./purple_air');
 
 let exceededThreshold = false;
-let threshold = 100;
+let threshold = 2;
 let lastReading = null;
 let currentTimout = null;
 
 async function run() {
-  console.log('inside run');
   aqi = await getSensorData();
   console.log(aqi, 'returned aqi');
   if (aqi > threshold && !exceededThreshold) {
-    exceededThreshold = true;
     console.log('sending alert email')
-    sendEmail(false, threshold);
+    sendEmail(exceededThreshold, threshold, aqi);
+    exceededThreshold = true;
   } else if (aqi < threshold && exceededThreshold) {
-    exceededThreshold = false;
     console.log('sending recovery email')
-    sendEmail(true, threshold);
+    sendEmail(exceededThreshold, threshold, aqi);
+    exceededThreshold = false;
   } else {
     console.log('no action needed')
   }
