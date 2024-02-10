@@ -3,7 +3,7 @@ const { sendEmail } = require('./emails');
 const { getSensorData } = require('./purple_air');
 
 let exceededThreshold = false;
-let threshold = 2;
+let threshold = 100;
 let lastReading = null;
 let currentTimout = null;
 
@@ -29,7 +29,7 @@ async function setSleepInt() {
   const timeout = calcTimeout(aqi, lastReading, currentTimout);
   lastReading = aqi;
   currentTimout = timeout;
-  console.log(`Waiting ${Math.round(timeout / 60000)} minutes between checks`)
+  console.log(`Waiting ${Math.round(timeout / 60000)} minutes between checks. Current time ${new Date()}`)
   setTimeout(setSleepInt, timeout);
 }
 

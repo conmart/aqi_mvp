@@ -11,7 +11,7 @@ const aqiBreakPoints = [
 
 const defaulTimeout = 600000;
 const maxTimeout = 3600000;
-const minTimeout = 300000;
+const minTimeout = 120000;
 
 const ppmToAqi = (ppm) => {
   if (ppm > aqiBreakPoints[aqiBreakPoints.length - 1][1]) {
@@ -30,7 +30,7 @@ const calcTimeout = (aqi, lastReading, currentTimout) => {
   if (lastReading) {
     const diff = Math.abs(aqi - lastReading);
     if (diff > 10) {
-      return Math.max((currentTimout / 2), minTimeout)
+      return minTimeout
     } else if (diff < 5) {
       return Math.min((currentTimout * 2), maxTimeout)
     }
