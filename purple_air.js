@@ -1,5 +1,5 @@
 const { aqiApiKey, sensorIndex } = require('./config');
-const { ppmToAqi } = require('./utils');
+const { pmToAqi } = require('./utils');
 
 async function getSensorData() {
   // return Math.floor(Math.random() * 200);
@@ -10,8 +10,8 @@ async function getSensorData() {
     },
   });
   const sensor_data = await response.json();
-  const ppm = await sensor_data['sensor']['stats']['pm2.5_10minute'];
-  aqi = ppmToAqi(ppm);
+  const pm = await sensor_data['sensor']['stats']['pm2.5_10minute'];
+  aqi = pmToAqi(pm);
   return aqi;
 }
 

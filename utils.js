@@ -1,5 +1,5 @@
 const aqiBreakPoints = [
-  // [particulate breakpoint (pb) lower, bp upper, AQI lower, AQI upper]
+  // [PM2.5 breakpoint (pb) lower, bp upper, AQI lower, AQI upper]
   [0.0, 12.0, 0, 50],
   [12.1, 35.4, 51, 100],
   [35.5, 55.4, 101, 150],
@@ -12,14 +12,14 @@ const aqiBreakPoints = [
 const maxTimeout = 3600000;
 const minTimeout = 120000;
 
-const ppmToAqi = (ppm) => {
+const pmToAqi = (pm) => {
   for (let i = 0; i < aqiBreakPoints.length; i++) {
-    if (ppm > aqiBreakPoints[i][1]) {
+    if (pm > aqiBreakPoints[i][1]) {
       continue;
     }
     const row = aqiBreakPoints[i];
     const raw =
-      ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
+      ((row[3] - row[2]) / (row[1] - row[0])) * (pm - row[0]) + row[2];
     return Math.round(raw);
   }
   return 500;
@@ -38,4 +38,4 @@ const calcTimeout = (aqi, lastReading, currentTimout) => {
   return minTimeout;
 };
 
-module.exports = { ppmToAqi, calcTimeout };
+module.exports = { pmToAqi, calcTimeout };
