@@ -1,10 +1,11 @@
 const { devEmail, emailPassword, personalEmail } = require('./config');
 const nodemailer = require('nodemailer');
 
+const aqiAlerts = [50, 100, 150];
+
 let defaultMailOptions = {
   from: devEmail,
   to: personalEmail,
-  subject: 'Air Quality Update',
 };
 
 const transporter = nodemailer.createTransport({
@@ -15,18 +16,32 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = (exceededThreshold, threshold, aqi) => {
+const sendEmail = (increasing, alert, aqi) => {
   const subject = `AQI Update: ${aqi}`;
-  const dynamicText = exceededThreshold ? 'dropped below' : 'exceeded';
-  const text = `Attention: the AQI for your area has ${dynamicText} your alert (${threshold}) and is currently at ${aqi}.`;
+  const dynamicText = increasing ? 'exceeded' : 'dropped below';
+  const text = `The AQI for your area has ${dynamicText} your alert (${alert}) and is currently at ${aqi}.`;
   const mailOptions = { ...defaultMailOptions, text, subject };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-  	  console.log(error);
+      console.log(error);
     } else {
       console.log('Email sent: ' + info.response);
     }
   });
+};
+
+const triggerEmailSend = (aqi, lastReading) => {
+  for (let i=0; i<aqiAlerts.length; i++ ) {
+    const alert = aqiAlerts[i]
+    if (aqi < alert && lastReading < alert) {
+      break;
+    } else if (aqi >= alert && lastReading >= alert) {
+      continue;
+    }
+    const increasing = aqi > lastReading;
+    sendEmail(increasing, alert, aqi)
+    break;
+  }
 }
 
-module.exports = { sendEmail };
+module.exports = { triggerEmailSend };

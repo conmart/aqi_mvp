@@ -2,7 +2,7 @@ const { aqiApiKey, sensorIndex } = require('./config');
 const { ppmToAqi } = require('./utils');
 
 async function getSensorData() {
-  // return 25
+  // return Math.floor(Math.random() * 200);
   const url = `https://api.purpleair.com/v1/sensors/${sensorIndex}?fields=pm2.5_10minute`;
   const response = await fetch(url, {
     headers: {
