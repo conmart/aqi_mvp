@@ -31,17 +31,17 @@ const sendEmail = (increasing, alert, aqi) => {
 };
 
 const triggerEmailSend = (aqi, lastReading) => {
-  for (let i=0; i<aqiAlerts.length; i++ ) {
-    const alert = aqiAlerts[i]
+  for (let i = 0; i < aqiAlerts.length; i++) {
+    const alert = aqiAlerts[i];
     if (aqi < alert && lastReading < alert) {
       break;
     } else if (aqi >= alert && lastReading >= alert) {
       continue;
     }
     const increasing = aqi > lastReading;
-    sendEmail(increasing, alert, aqi)
+    sendEmail(increasing, alert, aqi);
     break;
   }
-}
+};
 
 module.exports = { triggerEmailSend };

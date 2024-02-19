@@ -13,15 +13,16 @@ const maxTimeout = 3600000;
 const minTimeout = 120000;
 
 const ppmToAqi = (ppm) => {
-  for (let i=0; i < aqiBreakPoints.length; i++) {
+  for (let i = 0; i < aqiBreakPoints.length; i++) {
     if (ppm > aqiBreakPoints[i][1]) {
       continue;
     }
     const row = aqiBreakPoints[i];
-    const raw = ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
+    const raw =
+      ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
     return Math.round(raw);
   }
-  return 500
+  return 500;
 };
 
 const calcTimeout = (aqi, lastReading, currentTimout) => {
