@@ -13,29 +13,29 @@ const maxTimeout = 3600000;
 const minTimeout = 120000;
 
 const ppmToAqi = (ppm) => {
-  if (ppm > aqiBreakPoints[aqiBreakPoints.length - 1][1]) {
-    return 500;
+  for (let i = 0; i < aqiBreakPoints.length; i++) {
+    if (ppm > aqiBreakPoints[i][1]) {
+      continue;
+    }
+    const row = aqiBreakPoints[i];
+    const raw =
+      ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
+    return Math.round(raw);
   }
-  let i = 0;
-  while (ppm > aqiBreakPoints[i][1]) {
-    i++;
-  }
-  const row = aqiBreakPoints[i];
-  const raw = ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
-  return Math.round(raw);
+  return 500;
 };
 
 const calcTimeout = (aqi, lastReading, currentTimout) => {
   if (lastReading) {
     const diff = Math.abs(aqi - lastReading);
     if (diff > 10) {
-      return minTimeout
+      return minTimeout;
     } else if (diff < 5) {
-      return Math.min((currentTimout * 2), maxTimeout)
+      return Math.min(currentTimout * 2, maxTimeout);
     }
-    return currentTimout
+    return currentTimout;
   }
   return minTimeout;
-}
+};
 
 module.exports = { ppmToAqi, calcTimeout };
