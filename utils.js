@@ -9,7 +9,6 @@ const aqiBreakPoints = [
   [350.5, 500, 401, 500],
 ];
 
-const defaulTimeout = 600000;
 const maxTimeout = 3600000;
 const minTimeout = 120000;
 
@@ -21,8 +20,8 @@ const ppmToAqi = (ppm) => {
   while (ppm > aqiBreakPoints[i][1]) {
     i++;
   }
-  let row = aqiBreakPoints[i];
-  let raw = ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
+  const row = aqiBreakPoints[i];
+  const raw = ((row[3] - row[2]) / (row[1] - row[0])) * (ppm - row[0]) + row[2];
   return Math.round(raw);
 };
 
@@ -36,7 +35,7 @@ const calcTimeout = (aqi, lastReading, currentTimout) => {
     }
     return currentTimout
   }
-  return defaulTimeout;
+  return minTimeout;
 }
 
 module.exports = { ppmToAqi, calcTimeout };
