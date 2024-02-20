@@ -1,7 +1,7 @@
 const { devEmail, emailPassword, personalEmail } = require('./config');
 const nodemailer = require('nodemailer');
 
-const aqiAlerts = [50, 100, 150];
+const aqiAlerts = [5, 50, 100, 150];
 
 let defaultMailOptions = {
   from: devEmail,
