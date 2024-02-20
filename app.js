@@ -6,6 +6,7 @@ let currentTimout = null;
 let lastReading = null;
 
 async function run() {
+  console.log('inside run')
   aqi = await getSensorData();
   console.log(aqi, 'returned aqi');
   triggerEmailSend(aqi, lastReading);
