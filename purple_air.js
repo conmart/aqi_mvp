@@ -10,7 +10,6 @@ async function getSensorData() {
     },
   });
   const sensor_data = await response.json();
-  console.log(sensor_data)
   const pm = await sensor_data['sensor']['stats']['pm2.5_10minute'];
   aqi = pmToAqi(pm);
   return aqi;

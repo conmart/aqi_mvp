@@ -1,6 +1,8 @@
 const { calcTimeout } = require('./utils');
 const { triggerEmailSend } = require('./emails');
 const { getSensorData } = require('./purple_air');
+const express = require('express');
+const app = express();
 
 let currentTimout = null;
 let lastReading = null;
@@ -26,3 +28,8 @@ async function setSleepInt() {
 }
 
 setSleepInt();
+
+const port = parseInt(process.env.PORT) || 8080;
+app.listen(port, () => {
+  console.log(`aqiapp: listening on port ${port}`);
+});
