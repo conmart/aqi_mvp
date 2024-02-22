@@ -13,6 +13,9 @@ const maxTimeout = 3600000;
 const minTimeout = 120000;
 
 const pmToAqi = (pm) => {
+  if (pm < 0) {
+    return 0;
+  }
   for (let i = 0; i < aqiBreakPoints.length; i++) {
     if (pm > aqiBreakPoints[i][1]) {
       continue;
@@ -26,7 +29,7 @@ const pmToAqi = (pm) => {
 };
 
 const calcTimeout = (aqi, lastReading, currentTimout) => {
-  if (lastReading) {
+  if (Number.isInteger(lastReading)) {
     const diff = Math.abs(aqi - lastReading);
     if (diff > 10) {
       return minTimeout;
