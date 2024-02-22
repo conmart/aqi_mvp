@@ -31,6 +31,9 @@ const sendEmail = (increasing, alert, aqi) => {
 };
 
 const triggerEmailSend = (aqi, lastReading) => {
+  if (lastReading === null) {
+    return;
+  }
   for (let i = 0; i < aqiAlerts.length; i++) {
     const alert = aqiAlerts[i];
     if (aqi < alert && lastReading < alert) {
