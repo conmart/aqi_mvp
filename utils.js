@@ -29,6 +29,9 @@ const pmToAqi = (pm) => {
 };
 
 const calcTimeout = (aqi, lastReading, currentTimout) => {
+  if (aqi === null) {
+    return maxTimeout;
+  }
   if (Number.isInteger(lastReading)) {
     const diff = Math.abs(aqi - lastReading);
     if (diff > 10) {
