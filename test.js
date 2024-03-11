@@ -14,4 +14,6 @@ test('PM to AQI', () => {
 
 test('Timeout calculation', () => {
   assert.strictEqual(calcTimeout(0, 6, 1600000), 1600000);
+  assert.strictEqual(calcTimeout(4, 0, 1600000), 3200000);
+  assert.strictEqual(calcTimeout(null, 35, 1600000), 3600000);
 });
