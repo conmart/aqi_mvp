@@ -23,8 +23,8 @@ test('Timeout calculation', () => {
   assert.strictEqual(calcTimeout(10, 10, maxTimeout + 10), maxTimeout);
   // If new aqi is >10 points of last reading reduce timeout to minimum
   assert.strictEqual(calcTimeout(10, 50, miscTimeout), minTimeout);
-  // If no aqi is returned, default to recovery timeout
-  assert.strictEqual(calcTimeout(null, 35, miscTimeout), recoveryTimeout);
+  // If no aqi is returned, default to  maxTimeout
+  assert.strictEqual(calcTimeout(null, 35, miscTimeout), maxTimeout);
   // If no last reading is found, default to recovery timeout
   assert.strictEqual(calcTimeout(35, null, miscTimeout), recoveryTimeout);
 });
