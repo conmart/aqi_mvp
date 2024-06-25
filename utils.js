@@ -1,3 +1,5 @@
+const {maxTimeout, minTimeout, recoveryTimeout} = require('./config')
+
 const aqiBreakPoints = [
   // [PM2.5 breakpoint (pb) lower, bp upper, AQI lower, AQI upper]
   [0.0, 12.0, 0, 50],
@@ -8,9 +10,6 @@ const aqiBreakPoints = [
   [250.5, 350.4, 301, 400],
   [350.5, 500, 401, 500],
 ];
-
-const maxTimeout = 3600000;
-const minTimeout = 120000;
 
 const pmToAqi = (pm) => {
   if (pm < 0) {
@@ -29,10 +28,7 @@ const pmToAqi = (pm) => {
 };
 
 const calcTimeout = (aqi, lastReading, currentTimout) => {
-  if (aqi === null) {
-    return maxTimeout;
-  }
-  if (Number.isInteger(lastReading)) {
+  if (Number.isInteger(lastReading) && Number.isInteger(aqi)) {
     const diff = Math.abs(aqi - lastReading);
     if (diff > 10) {
       return minTimeout;
@@ -41,7 +37,7 @@ const calcTimeout = (aqi, lastReading, currentTimout) => {
     }
     return currentTimout;
   }
-  return minTimeout;
+  return recoveryTimeout;
 };
 
 module.exports = { pmToAqi, calcTimeout };

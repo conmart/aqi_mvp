@@ -19,17 +19,13 @@ async function setSleepInt() {
   const timeout = calcTimeout(aqi, lastReading, currentTimout);
   lastReading = aqi;
   currentTimout = timeout;
-  console.log(
-    `Waiting ${Math.round(
-      timeout / 60000
-    )} minutes between checks. Current time ${new Date()}`
-  );
-  setTimeout(setSleepInt, timeout);
+  console.log(`Waiting ${timeout} minutes between checks`);
+  setTimeout(setSleepInt, timeout * 60000);
 }
 
 setSleepInt();
 
-const port = parseInt(process.env.PORT) || 8080;
+const port = 8080;
 app.listen(port, () => {
   console.log(`aqiapp: listening on port ${port}`);
 });
