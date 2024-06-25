@@ -45,4 +45,4 @@ const triggerEmailSend = (aqi, lastReading) => {
   }
 };
 
-module.exports = { triggerEmailSend };
+module.exports = { sendEmail, triggerEmailSend };

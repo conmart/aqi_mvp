@@ -10,5 +10,5 @@ module.exports = {
   maxTimeout: process.env.MAX_TIMEOUT | 0,
   minTimeout: process.env.MIN_TIMEOUT | 0,
   recoveryTimeout: process.env.RECOVERY_TIMEOUT | 0,
-  aqiAlerts: process.env.AQI_ALERTS,
+  aqiAlerts: process.env.AQI_ALERTS.split(','),
 };

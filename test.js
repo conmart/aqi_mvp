@@ -1,7 +1,7 @@
-const test = require('node:test');
+const { test } = require('node:test');
 const assert = require('assert');
 const { pmToAqi, calcTimeout } = require('./utils');
-const { minTimeout, maxTimeout, recoveryTimeout } = require('./config');
+const { maxTimeout, minTimeout, recoveryTimeout } = require('./config');
 
 test('PM to AQI', () => {
   assert.strictEqual(pmToAqi(-50), 0);
